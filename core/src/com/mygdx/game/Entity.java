@@ -40,7 +40,12 @@ public class Entity {
         shadowSprite = new Sprite(new Texture("shadow.png"));
     }
 
-    public void render(SpriteBatch spriteBatch) {
+    public Entity(float offset) {
+        this();
+        x += offset;
+    }
+
+    public void update(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             direction = Direction.UP;
             y += SPEED;
@@ -57,8 +62,10 @@ public class Entity {
             direction = Direction.RIGHT;
             x += SPEED;
         }
+        stateTime += delta;
+    }
 
-        stateTime += Gdx.graphics.getDeltaTime();
+    public void draw(SpriteBatch spriteBatch) {
         TextureRegion textureRegion = null;
         switch (direction) {
             case UP: textureRegion = upAnimation.getKeyFrame(stateTime); break;
@@ -66,6 +73,7 @@ public class Entity {
             case LEFT: textureRegion = leftAnimation.getKeyFrame(stateTime); break;
             case RIGHT: textureRegion = rightAnimation.getKeyFrame(stateTime); break;
         }
+
         shadowSprite.setPosition(x + 12f, y - SIZE / 2f + 25f);
         shadowSprite.setAlpha(0.2f);
         shadowSprite.setSize(SIZE * 0.7f, SIZE * 0.3f);

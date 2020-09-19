@@ -12,24 +12,27 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Main extends ApplicationAdapter {
 
 	SpriteBatch spriteBatch;
-	Entity entity;
-	Sprite backgroundSprite;
+	World world;
 
 
 	@Override
 	public void create () {
 		spriteBatch = new SpriteBatch();
-		backgroundSprite = new Sprite(new Texture("background.jpg"));
-		entity = new Entity();
+		world = new World();
+		world.addEntity(new Entity());
+//		world.addEntity(new Entity(100f));
+//		world.addEntity(new Entity(-100f));
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		world.update(Gdx.graphics.getDeltaTime());
+
 		spriteBatch.begin();
-		spriteBatch.draw(backgroundSprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		entity.render(spriteBatch);
+		world.draw(spriteBatch);
 		spriteBatch.end();
 	}
 
